@@ -110,6 +110,7 @@ static VALUE clamavr_reload(VALUE self) {
         if(ptr->root != NULL) {
             cl_engine_free(ptr->root);
             ptr->root = cl_engine_new();
+            ptr->signo = 0;
         }
         ret = cl_load(dbdir, ptr->root, &ptr->signo, FIX2INT(ptr->db_options));
         if(ret != CL_SUCCESS) {
