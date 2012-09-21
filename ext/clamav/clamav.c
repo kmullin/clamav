@@ -107,12 +107,23 @@ static VALUE clamavr_reload(VALUE self) {
     if(state == 1) {
         const char *dbdir;
         dbdir = cl_retdbdir();
+        if(ptr->root != NULL) {
+            cl_engine_free(ptr->root);
+            ptr->root = cl_engine_new();
+            ptr->signo = 0;
+        }
         ret = cl_load(dbdir, ptr->root, &ptr->signo, FIX2INT(ptr->db_options));
         if(ret != CL_SUCCESS) {
             rb_raise(rb_eRuntimeError, "cl_load() error: %s\n", cl_strerror(ret));
         }
         cl_statfree(&ptr->dbstat);
         cl_statinidir(dbdir, &ptr->dbstat);
+
+        ret = cl_engine_compile(ptr->root);
+        if(ret != CL_SUCCESS) {
+            rb_raise(rb_eRuntimeError, "cl_engine_compile() error: %s\n", cl_strerror(ret));
+            cl_engine_free(ptr->root);
+        }
     }
     return INT2FIX(state);
 }
