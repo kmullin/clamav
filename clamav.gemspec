@@ -50,7 +50,6 @@ Gem::Specification.new do |s|
      "spec/clamav-testfiles/test.rar",
      "spec/clamav-testfiles/test.txt",
      "spec/clamav-testfiles/\320\237\321\200\320\276\320\263\321\200\320\260\320\274\320\274\320\260.doc",
-     "spec/spec",
      "spec/spec_helper.rb",
      "spec/unit/clamav_spec.rb",
      "tools/rakehelp.rb"
