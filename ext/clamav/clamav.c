@@ -117,6 +117,12 @@ static VALUE clamavr_reload(VALUE self) {
         }
         cl_statfree(&ptr->dbstat);
         cl_statinidir(dbdir, &ptr->dbstat);
+
+        ret = cl_engine_compile(ptr->root);
+        if(ret != CL_SUCCESS) {
+            rb_raise(rb_eRuntimeError, "cl_engine_compile() error: %s\n", cl_strerror(ret));
+            cl_engine_free(ptr->root);
+        }
     }
     return INT2FIX(state);
 }
